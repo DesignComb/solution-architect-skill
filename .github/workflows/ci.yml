@@ -19,7 +19,7 @@ jobs:
     name: 型別檢查 + 建置 + 產物同步
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -59,7 +59,7 @@ jobs:
     name: 驗證 plugin / marketplace 定義與 skills
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: '20.19'
