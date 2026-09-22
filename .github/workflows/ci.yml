@@ -45,6 +45,10 @@ jobs:
         run: npm run build:ssg
 
       - name: 擋住未同步的 site/ 或 dist/
+        # Dependabot 升級相依套件會改變打包結果，但它無法自己重建 site/+dist/，
+        # 所以跳過它的 PR 這道同步檢查（型別檢查與建置仍會跑）。
+        # 人為 PR 與 push 到 main 仍強制把關。
+        if: ${{ github.actor != 'dependabot[bot]' }}
         run: |
           if ! git diff --exit-code -- site dist; then
             echo "::error::site/ 或 dist/ 與 web/ 原始碼不同步。請在本機重跑 'npm run build && npm run build:ssg'，把重建後的產物一起提交。"

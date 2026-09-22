@@ -38,7 +38,10 @@ npm run links        # 官方連結檢查（全 repo 的外部連結連連看）
 兩個需求互斥，只能出兩份。切換靠 `vite.ssg.config.ts` 裡的 `define`，`src/main.tsx` 據此決定
 用哪個 Router、以及要 hydrate 還是重畫。
 
-改了 `web/` 任何東西，**兩個都要重跑再一起提交**。
+改了 `web/` 任何東西，**兩個都要重跑再一起提交**。這也包含**升級相依套件**——套件版本會
+改變打包結果。Dependabot 的 PR 因為無法自己重建產物，CI 會對它跳過「產物同步」檢查；所以
+合併相依更新後，記得在本機重跑 `npm run build && npm run build:ssg` 再推上 `main`
+（`main` 的 CI 會把關，不同步就會紅燈）。
 
 **新增或修改頁面**：路由、`<title>`、description 全部集中在 `src/routes.tsx` 一個陣列裡。
 加一頁就加一列，`<Routes>`、SSG 預先產生、換頁時更新標題三邊會自己跟上，不用改三個地方。
