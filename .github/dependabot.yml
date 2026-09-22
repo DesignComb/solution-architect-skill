@@ -1,0 +1,21 @@
+version: 2
+updates:
+  # 網站相依套件（打包進 site/ 與 dist/，需要盯安全性更新）
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      react:
+        patterns: ["react", "react-dom", "react-router-dom"]
+      radix:
+        patterns: ["@radix-ui/*"]
+      dev-deps:
+        dependency-type: development
+
+  # GitHub Actions 本身也要跟著更新
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

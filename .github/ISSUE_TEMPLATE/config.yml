@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 使用問題與討論
+    url: https://github.com/DesignComb/solution-architect-skill/discussions
+    about: 不是 bug 的用法問題、點子、成果分享，請開 Discussion。

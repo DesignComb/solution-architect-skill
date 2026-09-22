@@ -1,0 +1,30 @@
+name: 💲 價格過期回報
+description: stack-catalog 或網頁上的價格與官方不符
+labels: [price]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        價格過期也算 bug。請附**官方定價頁連結**，我們會同步更新
+        `stack-catalog.md`、網頁與查證日期三處（見 CONTRIBUTING.md 的「價格資料三處連動」）。
+  - type: input
+    id: item
+    attributes:
+      label: 哪一項服務 / 哪一頁
+      placeholder: 例如：Supabase Pro，或 /guides/services
+    validations:
+      required: true
+  - type: input
+    id: official
+    attributes:
+      label: 官方定價頁連結
+      placeholder: https://…
+    validations:
+      required: true
+  - type: textarea
+    id: diff
+    attributes:
+      label: 目錄寫的 vs 現在的
+      placeholder: 目錄寫 $25／月，官方現在是 $29／月
+    validations:
+      required: true

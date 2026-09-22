@@ -1,0 +1,250 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============ 製圖紙（亮）／藍曬圖（暗）→ shadcn tokens ============ */
+:root {
+  --background: #f6f2e9;
+  --foreground: #26221a;
+  --card: #fffdf8;
+  --card-foreground: #26221a;
+  --popover: #fffdf8;
+  --popover-foreground: #26221a;
+  --primary: #c13a22;
+  --primary-foreground: #fff7f0;
+  --secondary: #efeadd;
+  --secondary-foreground: #26221a;
+  --muted: #efeadd;
+  --muted-foreground: #7b7263;
+  --accent: #efeadd;
+  --accent-foreground: #26221a;
+  --destructive: #c13a22;
+  --border: #ddd5c2;
+  --input: #c9bfa6;
+  --ring: #c13a22;
+  --draft: #2b5da8;
+  --ok: #1f7a5c;
+  --warn: #a8621b;
+  --faint: #a69c89;
+  --radius: 0.625rem;
+  --grid-line: rgba(43, 93, 168, 0.07);
+  --grid-strong: rgba(43, 93, 168, 0.13);
+}
+
+.dark {
+  --background: #0f2036;
+  --foreground: #e9eff6;
+  --card: #16293f;
+  --card-foreground: #e9eff6;
+  --popover: #16293f;
+  --popover-foreground: #e9eff6;
+  --primary: #ff6a4d;
+  --primary-foreground: #fff7f0;
+  --secondary: #1c314a;
+  --secondary-foreground: #e9eff6;
+  --muted: #1c314a;
+  --muted-foreground: #97abc4;
+  --accent: #1c314a;
+  --accent-foreground: #e9eff6;
+  --destructive: #ff6a4d;
+  --border: #2a4460;
+  --input: #3a567a;
+  --ring: #ff6a4d;
+  --draft: #7fb2e8;
+  --ok: #4cc99a;
+  --warn: #e0a458;
+  --faint: #6d82a0;
+  --grid-line: rgba(214, 230, 247, 0.05);
+  --grid-strong: rgba(214, 230, 247, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-draft: var(--draft);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-faint: var(--faint);
+  --font-sans: "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-serif: Georgia, "Songti TC", "Noto Serif TC", "PMingLiU", "MingLiU", serif;
+  --font-mono: "Cascadia Code", "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 16.5px;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    background-image:
+      linear-gradient(var(--grid-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px),
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 100% 120px, 120px 100%, 24px 24px, 24px 24px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--draft) 18%, transparent);
+  }
+  [id] {
+    scroll-margin-top: 90px;
+  }
+}
+
+/* ============ 簽名視覺（動畫、印章、羅盤、風格試衣間） ============ */
+@keyframes rise {
+  to { opacity: 1; transform: none; }
+}
+@keyframes march {
+  to { stroke-dashoffset: -12; }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes pop {
+  50% { transform: scale(1.14); }
+}
+@keyframes wizin {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+.reveal { opacity: 0; transform: translateY(14px); animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+.reveal.d1 { animation-delay: 0.08s; }
+.reveal.d2 { animation-delay: 0.18s; }
+.reveal.d3 { animation-delay: 0.3s; }
+.reveal.d4 { animation-delay: 0.42s; }
+.march { stroke-dasharray: 6 6; animation: march 1.1s linear infinite; }
+.rose { animation: spin-slow 90s linear infinite; }
+.pop { animation: pop 0.3s ease; }
+.wizin { animation: wizin 0.28s cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* 印章 */
+.stamp {
+  position: absolute;
+  top: 66px;
+  right: 3%;
+  transform: rotate(9deg);
+  z-index: 1;
+  border: 3px solid var(--primary);
+  color: var(--primary);
+  border-radius: 6px;
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.3em;
+  padding: 8px 14px 8px 18px;
+  opacity: 0.82;
+  pointer-events: none;
+  mask-image: radial-gradient(circle at 30% 40%, #000 92%, transparent 98%);
+}
+.stamp::after {
+  content: "SOLUTION ARCHITECT · 通用版";
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
+  margin-top: 3px;
+  opacity: 0.85;
+}
+
+/* 風格試衣間（固定配色的展示物） */
+.miniui { border: 1.5px solid var(--input); overflow: hidden; font-size: 0.74rem; line-height: 1.5; display: block; }
+.miniui .mu-bar { padding: 8px 13px; font-weight: 700; font-size: 0.72rem; display: block; }
+.miniui .mu-body { padding: 13px; display: block; }
+.miniui .mu-h { font-weight: 700; margin-bottom: 9px; font-size: 0.86rem; display: block; }
+.miniui .mu-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; margin-bottom: 7px; }
+.miniui .mu-row i { font-style: normal; font-size: 0.62rem; padding: 1px 8px; }
+.miniui .mu-btn { display: block; width: 100%; border: 0; padding: 8px 0; font-weight: 650; font-size: 0.72rem; font-family: inherit; text-align: center; }
+.sty-clean { background: #fff; color: #18181b; font-family: var(--font-sans); border-radius: 10px; }
+.sty-clean .mu-bar { background: #fafafa; border-bottom: 1px solid #e4e4e7; }
+.sty-clean .mu-row { border: 1px solid #e4e4e7; border-radius: 7px; }
+.sty-clean .mu-row i { border: 1px solid #d4d4d8; border-radius: 99px; color: #52525b; }
+.sty-clean .mu-row i.warn { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+.sty-clean .mu-btn { background: #18181b; color: #fff; border-radius: 7px; }
+.sty-editorial { background: #f7f2e7; color: #211d17; font-family: var(--font-serif); border-radius: 2px; }
+.sty-editorial .mu-bar { border-bottom: 2px solid #211d17; letter-spacing: 0.14em; background: transparent; }
+.sty-editorial .mu-h { font-size: 1rem; letter-spacing: 0.04em; }
+.sty-editorial .mu-row { border-bottom: 1px solid #d9d0bd; padding-left: 0; padding-right: 0; }
+.sty-editorial .mu-row i { color: #b4441f; letter-spacing: 0.1em; }
+.sty-editorial .mu-btn { background: transparent; border: 1.5px solid #211d17; color: #211d17; letter-spacing: 0.18em; }
+.sty-warm { background: #fff6ec; color: #4a372a; font-family: var(--font-sans); border-radius: 18px; }
+.sty-warm .mu-bar { background: #ffe3c9; color: #7c4a21; font-weight: 800; }
+.sty-warm .mu-row { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(122, 74, 33, 0.1); }
+.sty-warm .mu-row i { background: #d9f2e3; color: #1f7a5c; border-radius: 99px; }
+.sty-warm .mu-row i.warn { background: #ffe0d6; color: #c05621; }
+.sty-warm .mu-btn { background: #ff9f68; color: #5a2f12; border-radius: 12px; font-weight: 800; }
+
+/* 需求單文件視圖（規劃精靈產出） */
+.docview h1 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 800; border-bottom: 2px solid var(--foreground); padding-bottom: 10px; }
+.docview h2 { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 800; margin-top: 24px; color: var(--primary); letter-spacing: 0.04em; }
+.docview blockquote { margin: 12px 0 0; padding: 9px 14px; border-left: 3px solid var(--draft); background: color-mix(in srgb, var(--draft) 10%, transparent); color: var(--muted-foreground); font-size: 0.82rem; border-radius: 0 8px 8px 0; }
+.docview p { font-size: 0.9rem; margin-top: 8px; }
+.docview ul, .docview ol { margin: 8px 0 0; padding-left: 1.3em; font-size: 0.9rem; list-style: revert; }
+.docview li { margin: 4px 0; }
+.docview hr { border: 0; border-top: 1.5px dashed var(--input); margin: 20px 0 8px; }
+
+/* 英雄區三張文件卡：發牌進場 → 漂浮 → hover 抬起擺正 */
+@keyframes deal {
+  0% { opacity: 0; transform: translate(46px, -70px) rotate(calc(var(--rot) + 12deg)) scale(1.05); }
+  62% { opacity: 1; transform: translate(-3px, 4px) rotate(calc(var(--rot) - 2.5deg)); }
+  82% { transform: translate(1px, -1px) rotate(calc(var(--rot) + 1deg)); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(var(--rot)); }
+}
+@keyframes floaty {
+  0%, 100% { transform: rotate(var(--rot)) translateY(0); }
+  50% { transform: rotate(calc(var(--rot) + 0.7deg)) translateY(-5px); }
+}
+.sheet-deal {
+  opacity: 0;
+  animation:
+    deal 0.85s cubic-bezier(0.2, 0.8, 0.25, 1) var(--delay, 0s) forwards,
+    floaty var(--floatdur, 7s) ease-in-out calc(var(--delay, 0s) + 0.95s) infinite;
+  will-change: transform;
+}
+.sheet-inner { transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.28s ease; }
+.sheet-deal:hover { z-index: 30; }
+.sheet-deal:hover .sheet-inner {
+  transform: translateY(-8px) rotate(calc(-1 * var(--rot))) scale(1.04);
+  box-shadow: 0 18px 40px -14px rgba(38, 34, 26, 0.35);
+}
+.dark .sheet-deal:hover .sheet-inner { box-shadow: 0 18px 40px -14px rgba(0, 0, 0, 0.6); }
+@media (prefers-reduced-motion: reduce) {
+  .sheet-deal { opacity: 1 !important; transform: rotate(var(--rot)); }
+}

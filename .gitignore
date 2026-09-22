@@ -1,0 +1,22 @@
+# 相依與建置暫存
+node_modules/
+*.tsbuildinfo
+
+# 注意：site/ 與 dist/ 是「刻意提交」的建置產物，不要加進這份清單。
+# site/ 是 /welcome 用 file:// 開的離線單檔，dist/ 是部署用的 SSG 多頁版。詳見 CONTRIBUTING.md。
+
+# IDE 與作業系統
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Claude Code 本地設定（含本機路徑與權限，僅限本機、勿發佈）
+.claude/settings.local.json
+
+# 環境變數（金鑰絕不進 repo）
+.env
+.env.*
+
+# 本地參考素材（不隨 repo 發佈）
+Screenshot_*.jpg

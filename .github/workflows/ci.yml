@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# 最小權限：CI 只需要讀 repo
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: 型別檢查 + 建置 + 產物同步
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install（鎖定版本）
+        working-directory: web
+        run: npm ci
+
+      - name: 型別檢查（strict，零錯誤）
+        working-directory: web
+        run: npm run check
+
+      - name: 建置離線單檔版（→ site/）
+        working-directory: web
+        run: npm run build
+
+      - name: 建置 SSG 多頁版（→ dist/）
+        working-directory: web
+        run: npm run build:ssg
+
+      - name: 擋住未同步的 site/ 或 dist/
+        run: |
+          if ! git diff --exit-code -- site dist; then
+            echo "::error::site/ 或 dist/ 與 web/ 原始碼不同步。請在本機重跑 'npm run build && npm run build:ssg'，把重建後的產物一起提交。"
+            exit 1
+          fi
+
+  manifests:
+    name: 驗證 plugin / marketplace 定義與 skills
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.19'
+      - name: 結構驗證
+        run: node .github/scripts/validate-manifests.mjs

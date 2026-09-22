@@ -1,0 +1,13 @@
+# 全部文字檔在 repo 內一律存成 LF，checkout 也用 LF。
+# 這樣 Windows 本機建置的 site/ 與 dist/ 跟 Linux CI 重建的產物才會逐位元組一致，
+# CI 的「產物同步」檢查（.github/workflows/ci.yml）才不會被行尾差異誤判。
+* text=auto eol=lf
+
+# 二進位檔不要做行尾轉換
+*.jpg  binary
+*.jpeg binary
+*.png  binary
+*.gif  binary
+*.ico  binary
+*.woff  binary
+*.woff2 binary

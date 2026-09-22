@@ -1,0 +1,16 @@
+{
+  "name": "solution-architect-skill",
+  "description": "解決方案架構師 plugin 的官方 marketplace：先想清楚，再動手做。",
+  "owner": {
+    "name": "DesignComb"
+  },
+  "plugins": [
+    {
+      "name": "solution-architect",
+      "source": "./",
+      "description": "通用的解決方案架構師：一步一步訪談出需求、盤點資源，產出架構建議書（該不該做 APP、前後端選型、每月成本）。",
+      "license": "MIT",
+      "keywords": ["architecture", "solution", "interview", "stack", "cost", "web", "planning"]
+    }
+  ]
+}

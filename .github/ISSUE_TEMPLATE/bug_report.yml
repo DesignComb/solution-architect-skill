@@ -1,0 +1,51 @@
+name: 🐛 問題回報
+description: 功能怪怪的、指令壞了、網頁出錯
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        回報前先搜尋一下有沒有重複的 issue。
+        **價格與官方不符**請改用「💲 價格過期回報」範本。
+  - type: textarea
+    id: goal
+    attributes:
+      label: 你想做什麼
+      placeholder: 例如：跑 /architect 想產出架構建議書
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 實際發生什麼
+      description: 貼上錯誤訊息或截圖
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 重現步驟
+      placeholder: |
+        1. …
+        2. …
+        3. …
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: claude --version
+      placeholder: 例如 1.x.x
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: 作業系統
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - 其他
+    validations:
+      required: false

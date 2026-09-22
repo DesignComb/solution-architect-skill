@@ -1,0 +1,12 @@
+{
+  "name": "solution-architect",
+  "displayName": "Solution Architect",
+  "version": "0.1.0",
+  "description": "通用的解決方案架構師工具箱。用一步一步的業務語言訪談問出需求、盤點你手上的資源，然後給你一份站得住腳的架構建議書：該不該做 APP、前後端怎麼選、要用哪些服務、每個月花多少錢。以 Web 為主，適合任何人——不只工程師。",
+  "author": {
+    "name": "DesignComb"
+  },
+  "keywords": ["architecture", "solution", "interview", "stack", "cost", "web", "pwa", "planning"],
+  "license": "MIT",
+  "skills": "./skills/"
+}
