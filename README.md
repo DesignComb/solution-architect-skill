@@ -1,7 +1,11 @@
 # Solution Architect — 先想清楚，再動手做
 
 [![CI](https://github.com/DesignComb/solution-architect-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/DesignComb/solution-architect-skill/actions/workflows/ci.yml)
+[![Deploy](https://github.com/DesignComb/solution-architect-skill/actions/workflows/deploy.yml/badge.svg)](https://github.com/DesignComb/solution-architect-skill/actions/workflows/deploy.yml)
+[![教學網站](https://img.shields.io/badge/教學網站-線上版-2ea44f)](https://designcomb.github.io/solution-architect-skill/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+> 🌐 **線上教學網站:<https://designcomb.github.io/solution-architect-skill/>**
 
 一個通用的 Claude Code plugin：在你動手做任何網站、系統或 APP **之前**，
 用一步一步的業務語言訪談，幫你走完——
@@ -58,6 +62,10 @@ solution/
 建議書寫好後，可以直接拿去給 Claude Code 開工，或拿去跟外包、工程師溝通。
 
 ## 教學網頁
+
+**線上版：<https://designcomb.github.io/solution-architect-skill/>**——推上 `main` 就用
+GitHub Actions 自動部署到 GitHub Pages。也能完全離線用：`/welcome` 會用 `file://` 直接開
+打包好的 `site/index.html`，不必裝 Node.js。
 
 教學網站用 **React＋Tailwind＋shadcn/ui** 打造——它本身就是這個 skill
 「俐落風格」建議組合的活範例。原始碼在 `web/`，建置產物輸出到 `site/`
