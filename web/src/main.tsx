@@ -15,12 +15,15 @@ import "./index.css"
  */
 const SSG = import.meta.env.VITE_SSG === "true"
 const Router = SSG ? BrowserRouter : HashRouter
+// 子路徑部署（GitHub Pages 的 /solution-architect-skill/）時，用 vite 的 base 當 basename；
+// 根路徑部署時 base 是 "/"，basename 也是 "/"，行為跟原本一樣。HashRouter 用不到，給 undefined。
+const basename = SSG ? import.meta.env.BASE_URL.replace(/\/$/, "") || "/" : undefined
 
 const root = document.getElementById("root")!
 
 const tree = (
   <StrictMode>
-    <Router>
+    <Router basename={basename}>
       <App />
     </Router>
   </StrictMode>

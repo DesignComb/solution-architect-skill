@@ -12,9 +12,12 @@ import path from 'node:path'
  *   SITE_URL=https://your-domain.tw npm run build:ssg
  */
 const SITE_URL = (process.env.SITE_URL || '').replace(/\/$/, '')
+// 部署在子路徑時用 BASE_PATH 帶入（例如 GitHub Pages：/solution-architect-skill/）。
+// 沒設就用根路徑 '/'，維持 Cloudflare Pages／Netlify／自訂網域的根部署不變。
+const BASE_PATH = process.env.BASE_PATH || '/'
 
 export default defineConfig({
-  base: '/',
+  base: BASE_PATH,
   plugins: [react(), tailwindcss()],
   resolve: { alias: { '@': path.resolve(import.meta.dirname, 'src') } },
   define: {
