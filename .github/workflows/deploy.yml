@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy to Cloudflare
 
-# 每次 push 到 main 就重建 SSG 版並部署到 GitHub Pages。
-# 部署用的是「子路徑 base + 絕對網址 SITE_URL」重建的產物，
-# 跟 repo 裡提交的根路徑 dist/ 是兩份不同用途的建置（提交的那份給根網域／Cloudflare 用）。
+# 每次 push 到 main：用絕對網址 SITE_URL 重建 SSG，再用 wrangler deploy 到 Cloudflare。
+# （Workers 靜態資產；自訂網域 sas.dco.tw 的綁定與 DNS 見 wrangler.jsonc。）
+# 需要 repo secret：CLOUDFLARE_API_TOKEN（見 CONTRIBUTING.md）。沒設就自動略過，不會讓 CI 紅燈。
 on:
   push:
     branches: [main]
@@ -10,46 +10,47 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-# 一次只跑一個部署，排隊而不取消進行中的
 concurrency:
-  group: pages
+  group: cf-deploy
   cancel-in-progress: false
 
 jobs:
-  build:
-    name: 建置 SSG（子路徑 + 絕對網址）
+  deploy:
+    name: 建置 + 部署到 Cloudflare
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: 檢查 Cloudflare 金鑰是否已設定
+        id: guard
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CF_TOKEN" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::尚未設定 CLOUDFLARE_API_TOKEN secret，略過 Cloudflare 部署。設好後 push 即自動部署。"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-node@v7
+        if: steps.guard.outputs.ready == 'true'
         with:
           node-version: '20.19'
           cache: npm
           cache-dependency-path: web/package-lock.json
       - name: Install
+        if: steps.guard.outputs.ready == 'true'
         working-directory: web
         run: npm ci
-      - name: Build
+      - name: Build（絕對網址 sas.dco.tw）
+        if: steps.guard.outputs.ready == 'true'
         working-directory: web
         env:
-          BASE_PATH: /solution-architect-skill/
-          SITE_URL: https://designcomb.github.io/solution-architect-skill
+          SITE_URL: https://sas.dco.tw
         run: npm run build:ssg
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    name: 部署
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy（wrangler）
+        if: steps.guard.outputs.ready == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler@4 deploy

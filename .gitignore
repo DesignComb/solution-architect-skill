@@ -20,3 +20,9 @@ Thumbs.db
 
 # 本地參考素材（不隨 repo 發佈）
 Screenshot_*.jpg
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example

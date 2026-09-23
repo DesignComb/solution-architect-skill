@@ -42,6 +42,8 @@ jobs:
 
       - name: 建置 SSG 多頁版（→ dist/）
         working-directory: web
+        env:
+          SITE_URL: https://sas.dco.tw
         run: npm run build:ssg
 
       - name: 擋住未同步的 site/ 或 dist/
